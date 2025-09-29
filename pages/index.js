@@ -120,7 +120,7 @@ const renderNewsCard = (news, isFeatured = false) => {
     <Link key={news.id} href={`/noticia/${news.categoryKey}/${news.id}`} legacyBehavior>
       <a className="block bg-gradient-to-br from-blue-50 to-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-blue-100 overflow-hidden">
         {isFeatured ? (
-          // Destacada: imagen arriba
+          // ✅ DESTACADA: imagen arriba + título y extracto abajo
           <div className="h-80 bg-gradient-to-br from-blue-200 to-blue-300 flex items-center justify-center relative overflow-hidden">
             <img 
               src={news.image} 
@@ -168,6 +168,13 @@ const renderNewsCard = (news, isFeatured = false) => {
                 <p className="text-gray-500 text-sm">{news.date}</p>
               </div>
             </div>
+          </div>
+        )}
+        {/* ✅ Título y extracto SIEMPRE visible en destacadas */}
+        {isFeatured && (
+          <div className="p-6">
+            <h3 className="font-bold text-blue-900 text-xl">{news.title}</h3>
+            <p className="text-gray-600 mt-2">{news.subtitle}</p>
           </div>
         )}
       </a>

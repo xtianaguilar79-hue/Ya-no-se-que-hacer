@@ -1,5 +1,5 @@
 // components/Layout.js
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -8,6 +8,24 @@ export default function Layout({ children, currentDate }) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+
+  // ✅ Detecta la categoría activa desde la URL
+  const getActiveCategory = () => {
+    const path = router.pathname;
+    if (path === '/') return 'home';
+    if (path.startsWith('/noticia/')) {
+      const parts = router.asPath.split('/');
+      if (parts.length >= 3) {
+        const cat = parts[2];
+        if (['sanjuan', 'nacionales', 'internacionales', 'sindicales', 'opinion'].includes(cat)) {
+          return cat;
+        }
+      }
+    }
+    return 'home';
+  };
+
+  const activeCategory = getActiveCategory();
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -97,7 +115,7 @@ export default function Layout({ children, currentDate }) {
           <div className="flex items-center justify-between">
             <div className="flex flex-wrap gap-1 md:gap-3">
               <Link href="/" legacyBehavior>
-                <a className="px-4 py-1 text-sm bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-semibold rounded-full transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg">
+                <a className={`px-4 py-1 text-sm ${activeCategory === 'home' ? 'bg-gradient-to-r from-red-500 to-red-600' : 'bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900'} text-white font-semibold rounded-full transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg`}>
                   <div className="flex items-center space-x-1">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                       <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
@@ -108,7 +126,7 @@ export default function Layout({ children, currentDate }) {
               </Link>
               {['sanjuan', 'nacionales', 'internacionales', 'sindicales', 'opinion'].map(cat => (
                 <Link key={cat} href={`/noticia/${cat}`} legacyBehavior>
-                  <a className="px-4 py-1 text-sm bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-semibold rounded-full transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg">
+                  <a className={`px-4 py-1 text-sm ${activeCategory === cat ? 'bg-gradient-to-r from-red-500 to-red-600' : 'bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900'} text-white font-semibold rounded-full transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg`}>
                     {cat === 'nacionales' ? 'Nacionales' :
                      cat === 'sanjuan' ? 'San Juan' :
                      cat === 'sindicales' ? 'Sindicales' :
@@ -155,7 +173,7 @@ export default function Layout({ children, currentDate }) {
           <div className="max-w-7xl mx-auto px-4 py-2">
             <nav className="flex flex-col space-y-2">
               <Link href="/" legacyBehavior>
-                <a className="px-4 py-1 text-sm bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-semibold rounded-full transition-all duration-300">
+                <a className={`px-4 py-1 text-sm ${activeCategory === 'home' ? 'bg-gradient-to-r from-red-500 to-red-600' : 'bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900'} text-white font-semibold rounded-full transition-all duration-300`}>
                   <div className="flex items-center space-x-1">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                       <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
@@ -166,7 +184,7 @@ export default function Layout({ children, currentDate }) {
               </Link>
               {['sanjuan', 'nacionales', 'internacionales', 'sindicales', 'opinion'].map(cat => (
                 <Link key={cat} href={`/noticia/${cat}`} legacyBehavior>
-                  <a className="px-4 py-1 text-sm bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-semibold rounded-full transition-all duration-300">
+                  <a className={`px-4 py-1 text-sm ${activeCategory === cat ? 'bg-gradient-to-r from-red-500 to-red-600' : 'bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900'} text-white font-semibold rounded-full transition-all duration-300`}>
                     {cat === 'nacionales' ? 'Nacionales' :
                      cat === 'sanjuan' ? 'San Juan' :
                      cat === 'sindicales' ? 'Sindicales' :
