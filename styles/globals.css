@@ -1,0 +1,58 @@
+/* styles/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 20s linear infinite;
+}
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+body {
+  font-family: 'Inter', sans-serif;
+}
+.content-html img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+}
+.content-html p {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+.prose {
+  max-width: none;
+}
+.header-custom {
+  height: auto;
+  min-height: 4rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+.footer-custom {
+  height: 10.5rem;
+}
+.sponsor-banner-height {
+  height: 3.75rem;
+}
+.sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: white;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+.content-with-sticky-header {
+  padding-top: 4.5rem;
+}
+@media (max-width: 1023px) {
+  .content-with-sticky-header {
+    padding-top: 6rem;
+  }
+}
